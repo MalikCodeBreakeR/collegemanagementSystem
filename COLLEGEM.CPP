@@ -23,6 +23,7 @@ typedef struct student std;
 void line(int,char);
 void right(int,char[]);
 void center(char []);
+void centerList(char []);
 void header(char []);
 void footer(char []);
 
@@ -72,7 +73,12 @@ void sortRecords(std []);
   void sortGen(std []);
   int compareAdd(const void *a, const void *b);
   void sortAdd(std []);
-
+void games();
+  void board(char []);
+  int printPositionValid(char [],char,int);
+  int choos(char [], int, char);
+  void win(char [],char);
+  void printWin(char [], char);
 
 int main()
 {
@@ -90,11 +96,13 @@ int main()
       fflush(stdout);
       line(80,205);
       header("<<< STUDENT MANAGEMENT SYSTEM >>>");
+      gotoxy(35,7);
+      printf("Students : %d\n\n",ct);
       options();
       center("Choos an option (0 for back) : ");
 
       footer("DEVELOPER : MOHD ASRAR MALIK");
-      gotoxy(57,19);
+      gotoxy(58,20);
 
       scanf("%d",&opn);
 
@@ -123,6 +131,9 @@ int main()
 	  break;
 	case 8:
 	  sortRecords(stdArr);
+	  break;
+	case 9:
+	  games();
 	  break;
 	case 0:
 	  clrscr();
@@ -166,6 +177,16 @@ void center(char str[])
   }
   printf("%s\n",str);
 }
+void centerList(char str[])
+{
+  int i;
+  for(i=1; i<=30; i++)
+  {
+    printf(" ");
+  }
+  printf("%s\n",str);
+}
+
 void header(char str[])
 {
   line(80,205);
@@ -183,16 +204,16 @@ void footer(char str[])
 
 void options()
 {
-  center("01. NEW ADMISSION");
-  center("02. LIST RECORDS");
-  center(" 03. SEARCH RECORDS");
-  center(" 04. MODIFY RECORDS");
-  center(" 05. DELETE RECORDS");
-  center(" 06. FAILUR REPORTS");
-  center(" 07. HIGHEST SCORER");
-  center("08. SORT RECORDS");
-  printf("\n");
-  center("0. EXIT\n\n");
+  centerList("01. NEW ADMISSION");
+  centerList("02. LIST RECORDS");
+  centerList("03. SEARCH RECORDS");
+  centerList("04. MODIFY RECORDS");
+  centerList("05. DELETE RECORDS");
+  centerList("06. FAILUR REPORTS");
+  centerList("07. HIGHEST SCORER");
+  centerList("08. SORT RECORDS");
+  centerList("09. PLAY A GAME");
+  centerList("00. EXIT\n\n");
 }
 
 void newAddmission(std stdArr[])
@@ -203,7 +224,7 @@ void newAddmission(std stdArr[])
   {
     clrscr();
     header("<<< NEW ADDMISSSION >>>");
-    gotoxy(34,8);
+    gotoxy(35,8);
     printf("Stundets : %d",ct);
     gotoxy(1,12);
     center("Confirm y(1)/n(0) : ");
@@ -225,7 +246,7 @@ void newAddmission(std stdArr[])
       gets(stdArr[ct].branch);
       fflush(stdin);
       printf("Enter Student Gender: ");
-      gets(stdArr[ct].branch);
+      gets(stdArr[ct].gen);
       fflush(stdin);
       printf("Enter Student Address: ");
       gets(stdArr[ct].add);
@@ -305,20 +326,20 @@ void searchRecords(std stdArr[])
   {
     clrscr();
     header("<<< SEARCH RECORDS >>>");
-    gotoxy(40,7);
+    gotoxy(35,7);
     printf("Students : %d\n\n",ct);
-    center("       01. BY ROLL NUMBER");
-    center("02. BY NAME");
-    center("  03. BY BRANCH");
-    center("  04. BY GENDER");
-    center("05. BY CITY");
-    center("  06. BY STATE");
-    center("  07. BY DISTIC");
-    center("         08. BY NATIONALITY\n");
-    center("      0. EXIT\n\n");
+    centerList("01. BY ROLL NUMBER");
+    centerList("02. BY NAME");
+    centerList("03. BY BRANCH");
+    centerList("04. BY GENDER");
+    centerList("05. BY CITY");
+    centerList("06. BY STATE");
+    centerList("07. BY DISTIC");
+    centerList("08. BY NATIONALITY");
+    centerList("00. EXIT\n\n");
 
     center("Choos an option (0 for back) : ");
-    gotoxy(58,21);
+    gotoxy(58,20);
     scanf("%d",&opn);
     fflush(stdin);
 
@@ -409,7 +430,7 @@ void searchRollNo(std stdArr[],char str[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -437,7 +458,7 @@ void searchName(std stdArr[],char str[])
     clrscr();
     gotoxy(1,12);
 
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -464,7 +485,7 @@ void searchBranch(std stdArr[],char str[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -491,7 +512,7 @@ void searchGen(std stdArr[],char str[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -518,7 +539,7 @@ void searchAdd(std stdArr[],char str[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -533,18 +554,18 @@ void modifyRecords(std stdArr[])
     clrscr();
     header("<<< MODIFY RECORDS >>>");
 
-    center("       01. BY ROLL NUMBER");
-    center("02. BY NAME");
-    center("  03. BY BRANCH");
-    center("  04. BY GENDER");
-    center("05. BY CITY");
-    center("  06. BY STATE");
-    center("  07. BY DISTIC");
-    center("         08. BY NATIONALITY\n");
-    center("      0. EXIT\n\n");
+    centerList("01. BY ROLL NUMBER");
+    centerList("02. BY NAME");
+    centerList("03. BY BRANCH");
+    centerList("04. BY GENDER");
+    centerList("05. BY CITY");
+    centerList("06. BY STATE");
+    centerList("07. BY DISTIC");
+    centerList("08. BY NATIONALITY");
+    centerList("00. EXIT\n\n");
 
     center("Choos an option (0 for back) : ");
-    gotoxy(58,19);
+    gotoxy(58,18);
     scanf("%d",&opn);
     fflush(stdin);
 
@@ -606,7 +627,7 @@ void modifyRecords(std stdArr[])
       case 0:
 	clrscr();
 	gotoxy(1,12);
-	center("Backed");
+	center("Backed!!!");
 	getch();
 	break;
       default:
@@ -643,7 +664,7 @@ void modifyRollNo(std stdArr[],char key[],char value[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -672,7 +693,7 @@ void modifyName(std stdArr[],char key[],char value[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -700,7 +721,7 @@ void modifyBranch(std stdArr[],char key[],char value[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -728,7 +749,7 @@ void modifyGen(std stdArr[],char key[],char value[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -756,7 +777,7 @@ void modifyAdd(std stdArr[],char key[],char value[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -769,18 +790,18 @@ void deleteRecords(std stdArr[])
   {
     clrscr();
     header("<<< DELETE RECORDS >>>");
-    center("       01. BY ROLL NUMBER");
-    center("02. BY NAME");
-    center("  03. BY BRANCH");
-    center("  04. BY GENDER");
-    center("05. BY CITY");
-    center("  06. BY STATE");
-    center("  07. BY DISTIC");
-    center("         08. BY NATIONALITY\n");
-    center("      0. EXIT\n\n");
+    centerList("01. BY ROLL NUMBER");
+    centerList("02. BY NAME");
+    centerList("03. BY BRANCH");
+    centerList("04. BY GENDER");
+    centerList("05. BY CITY");
+    centerList("06. BY STATE");
+    centerList("07. BY DISTIC");
+    centerList("08. BY NATIONALITY");
+    centerList("00. EXIT\n\n");
 
     center("Choos an option (0 for back) : ");
-    gotoxy(58,19);
+    gotoxy(58,18);
     scanf("%d",&opn);
     fflush(stdin);
 
@@ -836,7 +857,7 @@ void deleteRecords(std stdArr[])
       case 0:
 	clrscr();
 	gotoxy(1,12);
-	center("Backed");
+	center("Backed!!!");
 	getch();
 	break;
       default:
@@ -885,7 +906,7 @@ void deleteRollNo(std stdArr[],char str[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -925,7 +946,7 @@ void deleteName(std stdArr[],char str[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -965,7 +986,7 @@ void deleteBranch(std stdArr[],char str[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -1005,7 +1026,7 @@ void deleteGen(std stdArr[],char str[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -1044,7 +1065,7 @@ void deleteAdd(std stdArr[],char str[])
   {
     clrscr();
     gotoxy(1,12);
-    center("Not found");
+    center("Not found!!!");
     getch();
   }
 }
@@ -1112,18 +1133,18 @@ void sortRecords(std stdArr[])
     header("<<< SORT RECORDS >>>");
     gotoxy(38,6);
     printf("Students : %d\n\n",ct);
-    center("       01. BY ROLL NUMBER");
-    center("02. BY NAME");
-    center("  03. BY BRANCH");
-    center("  04. BY GENDER");
-    center("05. BY CITY");
-    center("  06. BY STATE");
-    center("  07. BY DISTIC");
-    center("         08. BY NATIONALITY\n");
-    center("      0. EXIT\n\n");
+    centerList("01. BY ROLL NUMBER");
+    centerList("02. BY NAME");
+    centerList("03. BY BRANCH");
+    centerList("04. BY GENDER");
+    centerList("05. BY CITY");
+    centerList("06. BY STATE");
+    centerList("07. BY DISTIC");
+    centerList("08. BY NATIONALITY");
+    centerList("00. EXIT\n\n");
 
     center("Choos an option (0 for back) : ");
-    gotoxy(58,20);
+    gotoxy(58,19);
     scanf("%d",&opn);
     fflush(stdin);
 
@@ -1183,7 +1204,6 @@ int compareRoll(const void *a, const void *b)
 
 void sortRollNo(std stdArr[])
 {
-
   qsort(stdArr,ct,sizeof(std),compareRoll);
   printf("%-11s%-15s%-11s%-7s%-20s%-4s%-4s%-4s%-4s\n","RollNo", "Name",
   "Branch", "Gender", "City","Mth","Phy","Che","Rslt");
@@ -1213,10 +1233,7 @@ int compareName(const void *a, const void *b)
 }
 void sortName(std stdArr[])
 {
-
   qsort(stdArr,ct,sizeof(std),compareName);
-
-  header("<<< SORT NAME >>>");
   printf("%-11s%-15s%-11s%-7s%-20s%-4s%-4s%-4s%-4s\n","RollNo", "Name",
   "Branch", "Gender", "City","Mth","Phy","Che","Rslt");
   line(80,'~');
@@ -1245,10 +1262,7 @@ int compareBranch(const void *a, const void *b)
 }
 void sortBranch(std stdArr[])
 {
-
   qsort(stdArr,ct,sizeof(std),compareBranch);
-
-  header("<<< SORT BRANCH >>>");
   printf("%-11s%-15s%-11s%-7s%-20s%-4s%-4s%-4s%-4s\n","RollNo", "Name",
   "Branch", "Gender", "City","Mth","Phy","Che","Rslt");
   line(80,'~');
@@ -1277,10 +1291,7 @@ int compareGen(const void *a, const void *b)
 }
 void sortGen(std stdArr[])
 {
-
   qsort(stdArr,ct,sizeof(std),compareGen);
-
-  header("<<< SORT BRANCH >>>");
   printf("%-11s%-15s%-11s%-7s%-20s%-4s%-4s%-4s%-4s\n","RollNo", "Name",
   "Branch", "Gender", "City","Mth","Phy","Che","Rslt");
   line(80,'~');
@@ -1309,10 +1320,7 @@ int compareAdd(const void *a, const void *b)
 }
 void sortAdd(std stdArr[])
 {
-
   qsort(stdArr,ct,sizeof(std),compareAdd);
-
-  header("<<< SORT BRANCH >>>");
   printf("%-11s%-15s%-11s%-7s%-20s%-4s%-4s%-4s%-4s\n","RollNo", "Name",
   "Branch", "Gender", "City","Mth","Phy","Che","Rslt");
   line(80,'~');
@@ -1335,3 +1343,200 @@ void sortAdd(std stdArr[])
   getch();
 }
 //.....................
+
+void games()
+{
+   char str[10] = {'0','0','0','0','0','0','0','0','0','\0'};
+   int opn;
+   clrscr();
+   gotoxy(1,11);
+   center("Welcome BOSS in Games (Press any key to start)");
+   getch();
+   int ch=2,chk=1;
+   do
+   {
+      clrscr();
+      header("<<<Welcome to Tic Tac toe >>>");
+      board(str);
+      if(ch%2 == 0)
+      {
+	center("Player 1(O) : Choos a option {1, 2, 3, 4, 5, 6, 7, 8, 9} : ");
+	gotoxy(72,16);
+	scanf("%d",&opn);
+	chk = choos(str,opn,'O');
+	if(chk == 0)
+	{
+	  ch++;
+	}
+	win(str,'O');
+      }
+      else
+      {
+	center("Player 2(X) : Choos a option {1, 2, 3, 4, 5, 6, 7, 8, 9} : ");
+	gotoxy(72,16);
+	scanf("%d",&opn);
+	chk = choos(str,opn,'X');
+	if(chk == 0)
+	{
+	  ch++;
+	}
+	win(str,'X');
+      }
+      ch++;
+   }while(opn!=0);
+}
+
+void board(char str[])
+{
+  int i;
+  for(i=0; i<9; i++)
+  {
+    printf("|   %c   |",str[i]);
+    if(i==2 || i==5 || i==8)
+    {
+      printf("\n");
+      printf("------------------------------");
+      printf("\n");
+    }
+  }
+  printf("\n\n\n");
+}
+
+int printPositionValid(char str[],char sym, int i)
+{
+  if(str[i-1] == '0')
+  {
+    str[i-1] = sym;
+    return 1;
+  }
+  else
+  {
+    clrscr();
+    gotoxy(1,12);
+    center("Invalid position already filled !!!");
+    getch();
+    return 0;
+  }
+}
+
+int choos(char str[],int opn, char sym)
+{
+   switch(opn)
+   {
+     case 1:
+       return printPositionValid(str,sym,opn);
+       break;
+     case 2:
+       return printPositionValid(str,sym,opn);
+       break;
+     case 3:
+       return printPositionValid(str,sym,opn);
+       break;
+     case 4:
+       return printPositionValid(str,sym,opn);
+       break;
+     case 5:
+       return printPositionValid(str,sym,opn);
+       break;
+     case 6:
+       return printPositionValid(str,sym,opn);
+       break;
+     case 7:
+       return printPositionValid(str,sym,opn);
+       break;
+     case 8:
+       return printPositionValid(str,sym,opn);
+       break;
+     case 9:
+       return printPositionValid(str,sym,opn);
+       break;
+     case 0:
+       clrscr();
+       gotoxy(1,11);
+       center("Game Terminated!!!");
+       getch();
+       break;
+     default:
+       clrscr();
+       gotoxy(1,11);
+       center("Wrong option!!!");
+       getch();
+       return 0;
+   }
+}
+
+void printWin(char str[],char sym)
+{
+  int i;
+  clrscr();
+  for(i=0; i<9; i++)
+  {
+    str[i] = '0';
+  }
+
+  gotoxy(1,11);
+  if(sym == 'O')
+  {
+       center("Hrrey!!!!, Player 1(O) win!!!");
+  }
+  else
+  {
+       center("Hrrey!!!!, Player 2(X) win!!!");
+  }
+  getch();
+}
+void win(char str[],char sym)
+{
+  if(str[0] == sym && str[1] == sym && str[2] == sym )
+  {
+    printWin(str,sym);
+  }
+  else if(str[0] == sym && str[3] == sym && str[6] == sym )
+  {
+    printWin(str,sym);
+  }
+  else if(str[0] == sym && str[4] == sym && str[8] == sym )
+  {
+    printWin(str,sym);
+  }
+  else if(str[8] == sym && str[5] == sym && str[2] == sym )
+  {
+    printWin(str,sym);
+  }
+  else if(str[8] == sym && str[7] == sym && str[6] == sym )
+  {
+    printWin(str,sym);
+  }
+  else if(str[1] == sym && str[4] == sym && str[7] == sym )
+  {
+    printWin(str,sym);
+  }
+  else if(str[3] == sym && str[4] == sym && str[5] == sym )
+  {
+    printWin(str,sym);
+  }
+  else if(str[2] == sym && str[4] == sym && str[6] == sym )
+  {
+    printWin(str,sym);
+  }
+  int i;
+  int d=0;
+  for(i=0; i<9; i++)
+  {
+    if(str[i] == 'O' || str[i] == 'X')
+    {
+      d++;
+    }
+  }
+  if(d==9)
+  {
+    for(i=0; i<9; i++)
+    {
+      str[i] = '0';
+    }
+    clrscr();
+    gotoxy(1,11);
+    center("GAME DRAW !!!");
+    getch();
+  }
+}
